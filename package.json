@@ -1,0 +1,23 @@
+{
+  "name": "telegram-math-drawing-bot",
+  "version": "0.0.1",
+  "description": "Telegram bot that draws Math symbols from Mathjax code",
+  "main": "main.js",
+  "dependencies": {
+    "telegraf": "^3.15.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simsso/Telegram-Math-Drawing-Bot.git"
+  },
+  "author": "Timo Denk (timodenk.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Simsso/Telegram-Math-Drawing-Bot/issues"
+  },
+  "homepage": "https://github.com/Simsso/Telegram-Math-Drawing-Bot#readme"
+}
