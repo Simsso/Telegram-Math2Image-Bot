@@ -1,4 +1,3 @@
-const request = require('request')
 const Telegraf = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
@@ -12,23 +11,37 @@ const samples = [
     '\\sum _{n=0}^{\\infty }{\\frac {f^{(n)}(a)}{n!}}\\,(x-a)^{n}'
 ];
 
+/**
+ * Converts a TeX math expression into the URL that delivers the corresponding jpeg image with a padding of 50px.
+ * @param {string} tex TeX math expression
+ */
 function getImageURL(tex) {
-    return 'https://timodenk.com/api/tex2img/' + encodeURI(tex) + '?padding=50&format=jpg'
+    return 'https://timodenk.com/api/tex2img/' + encodeURIComponent(tex) + '?padding=50&format=jpg'
 }
 
+/**
+ * Bot "Start" /start
+ * Called if somebody contacts the bot for the first time or sends the command /start.
+ */
 bot.start((ctx) => {
     console.log('started:', ctx.from.id)
     return ctx.reply('Welcome to the Math Drawing Bot! \nSend equations like "E=mc^2" or "e^{i\\pi }+1=0" and get I will send a nicely drawed picture back. You can also request a /sample.')
 });
 
+/**
+ * Users can request samples with the command /sample.
+ */
 bot.command('sample', (ctx) => {
     const sample = samples[Math.floor(Math.random() * samples.length)];
     ctx.reply(sample)
     return Promise.all([
         sendEquation(ctx, sample)
     ]);
-})
+});
 
+/**
+ * Normal message, i.e. convert math expression to image task.
+ */
 bot.on('message', (ctx) => {
     if (typeof ctx.message.text !== 'string') return;
     return Promise.all([
@@ -36,10 +49,19 @@ bot.on('message', (ctx) => {
     ]);
 });
 
+/**
+ * Sends a rendered version of the given expression to the given context.
+ * @param {*} ctx Telegraf conversation context
+ * @param {string} equation TeX math expression
+ */
 function sendEquation(ctx, equation) {
     ctx.replyWithPhoto(getImageURL(equation))
 }
 
+/**
+ * Bot inline capabilities. Users can call the bot inline with @math2img_bot <expression>.
+ * The bot responds with one suggested images, i.e. the rendered expression.
+ */
 bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
     let photoURL = getImageURL(inlineQuery.query);
     return answerInlineQuery([
@@ -52,4 +74,5 @@ bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
     ])
 })
 
+// start bot
 bot.startPolling();

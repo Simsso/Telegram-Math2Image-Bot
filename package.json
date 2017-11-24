@@ -1,6 +1,6 @@
 {
   "name": "telegram-math-drawing-bot",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Telegram bot that draws Math symbols from Mathjax code",
   "main": "main.js",
   "dependencies": {
