@@ -20,12 +20,18 @@ function getImageURL(tex) {
 }
 
 /**
+ * Catch all errors following
+ * http://telegraf.js.org/#/?id=error-handling
+ */
+bot.catch(console.log)
+
+/**
  * Bot "Start" /start
  * Called if somebody contacts the bot for the first time or sends the command /start.
  */
 bot.start((ctx) => {
     console.log('started:', ctx.from.id)
-    return ctx.reply('Welcome to the Math Drawing Bot! \nSend equations like "E=mc^2" or "e^{i\\pi }+1=0" and get I will send a nicely drawed picture back. You can also request a /sample.')
+    return ctx.reply('Welcome to the Math Drawing Bot! \nSend equations like "E=mc^2" or "e^{i\\pi }+1=0" and get I will send a nicely drawed picture back. You can also request a /sample.').catch()
 });
 
 /**
@@ -75,4 +81,6 @@ bot.on('inline_query', async ({ inlineQuery, answerInlineQuery }) => {
 })
 
 // start bot
-bot.startPolling();
+bot.startPolling()
+
+console.log("Bot started")
